@@ -1,3 +1,20 @@
+/**
+ * Archivo: main.c
+ * Descripción: Implementación principal del sistema de monitoreo de temperatura y humedad
+ *              utilizando el sensor DHT11 en ESP32-C3 SuperMini con alerta por LED.
+ * Autor: migbertweb
+ * Fecha: 16/11/2024
+ * Repositorio: https://github.com/migbertweb/dht11-esp32c3
+ * Licencia: MIT License
+ *
+ * Uso: Este archivo contiene la lógica principal para leer datos del sensor DHT11,
+ *      controlar un LED de alerta basado en umbrales de temperatura, y mostrar
+ *      las lecturas a través del puerto serie.
+ *
+ * Nota: Este proyecto usa Licencia MIT. Se recomienda (no obliga) mantener 
+ * derivados como código libre, especialmente para fines educativos.
+ */
+
 #include <stdio.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>

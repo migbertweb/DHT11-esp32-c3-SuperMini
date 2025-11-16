@@ -1,32 +1,101 @@
-# _Sample project_
+# Sistema de Monitoreo DHT11 con ESP32-C3 SuperMini
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This is the simplest buildable example. The example is used by command `idf.py create-project`
-that copies the project to user specified path and set it's name. For more information follow the [docs page](https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system.html#start-a-new-project)
+Este proyecto implementa un sistema de monitoreo de temperatura y humedad utilizando un sensor DHT11 conectado a una placa ESP32-C3 SuperMini. El sistema incluye un LED indicador que se activa cuando la temperatura supera un umbral predefinido.
 
+## Características
 
+- Lectura de temperatura y humedad del sensor DHT11
+- Visualización de datos por puerto serie
+- LED indicador que se activa al superar el umbral de temperatura
+- Fácil configuración de pines GPIO
+- Compatible con ESP-IDF
 
-## How to use example
-We encourage the users to use the example as a template for the new projects.
-A recommended way is to follow the instructions on a [docs page](https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system.html#start-a-new-project).
+## Hardware Requerido
 
-## Example folder contents
+- Placa ESP32-C3 SuperMini
+- Sensor DHT11
+- LED (para alerta visual)
+- Resistencias de 10KΩ (pull-up para DHT11) y 220Ω (para el LED)
+- Protoboard y cables de conexión
 
-The project **sample_project** contains one source file in C language [main.c](main/main.c). The file is located in folder [main](main).
-
-ESP-IDF projects are built using CMake. The project build configuration is contained in `CMakeLists.txt`
-files that provide set of directives and instructions describing the project's source files and targets
-(executable, library, or both). 
-
-Below is short explanation of remaining files in the project folder.
+## Diagrama de Conexiones
 
 ```
-├── CMakeLists.txt
-├── main
-│   ├── CMakeLists.txt
-│   └── main.c
-└── README.md                  This is the file you are currently reading
+DHT11    ESP32-C3
+------------------
+VCC  ->  3.3V
+DATA ->  GPIO3 (D3)
+GND  ->  GND
+
+LED   ->  GPIO1 (D1) -> Resistencia 220Ω -> GND
 ```
-Additionally, the sample project contains Makefile and component.mk files, used for the legacy Make based build system. 
-They are not used or needed when building with CMake and idf.py.
+
+## Configuración
+
+1. Clona este repositorio:
+   ```bash
+   git clone https://github.com/migbertweb/dht11-esp32c3.git
+   cd dht11-esp32c3
+   ```
+
+2. Configura el entorno de desarrollo ESP-IDF (asegúrate de tenerlo instalado previamente).
+
+3. Configura el proyecto:
+   ```bash
+   idf.py set-target esp32c3
+   idf.py menuconfig
+   ```
+   (Opcional) Ajusta la configuración según sea necesario.
+
+4. Compila y flashea el proyecto:
+   ```bash
+   idf.py build
+   idf.py -p /dev/ttyUSB0 flash monitor
+   ```
+   Reemplaza `/dev/ttyUSB0` con el puerto serie correspondiente.
+
+## Uso
+
+1. Conecta el hardware según el diagrama proporcionado.
+2. Enciende la placa ESP32-C3.
+3. Abre el monitor serie para ver las lecturas de temperatura y humedad.
+4. El LED se encenderá cuando la temperatura supere el umbral configurado (35°C por defecto).
+
+## Estructura del Proyecto
+
+```
+├── CMakeLists.txt          # Configuración principal de CMake
+├── main/
+│   ├── CMakeLists.txt     # Configuración del componente principal
+│   └── main.c             # Código fuente principal
+├── components/            # Componentes personalizados
+├── LICENSE               # Licencia MIT
+└── README.md             # Este archivo
+```
+
+## Personalización
+
+Puedes modificar los siguientes parámetros en `main.c`:
+
+- `DHT_GPIO`: Pin GPIO para el sensor DHT11 (por defecto: GPIO3)
+- `LED_GPIO`: Pin GPIO para el LED (por defecto: GPIO1)
+- `TEMP_UMBRAL`: Umbral de temperatura para activar la alerta (por defecto: 35°C)
+
+## Licencia
+
+Este proyecto está bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+
+## Autor
+
+Migbertweb - [GitHub](https://github.com/migbertweb)
+
+## Agradecimientos
+
+- Basado en el ejemplo de DHT de Espressif
+- Utiliza la biblioteca DHT de ESP-IDF
+
+---
+
+**Nota sobre uso educativo:** Se recomienda encarecidamente, aunque no es obligatorio, que las obras derivadas mantengan este mismo espíritu de código libre y abierto, especialmente cuando se utilicen con fines educativos o de investigación.
